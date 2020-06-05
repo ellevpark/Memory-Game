@@ -9,27 +9,31 @@ function flipCard() {
     //first click
     hasFlippedCard = true;
     firstCard = this;
+
+    return;
   }
-  else {
     //second click
     hasFlippedCard = false;
     secondCard = this; 
     checkMatch();
-  }
 }
 
 function checkMatch() {
-  if (firstCard.dataset.painting === secondCard.dataset.painting) {
-    // match
-    firstCard.removeEventListener('click', flipCard);
-    secondCard.removeEventListener('click', flipCard);
-  } else{
-    //not a match
-    setTimeout(() => {
+  let isMatch = firstCard.dataset.painting === secondCard.dataset.painting; 
+
+  isMatch ? disableCards() : unflipCards();
+}
+
+function disableCards(){
+  firstCard.removeEventListener('click', flipCard);
+  secondCard.removeEventListener('click', flipCard);
+}
+
+function unflipCards(){ 
+  setTimeout(() => {
     firstCard.classList.remove('flip'); 
     secondCard.classList.remove('flip');
   }, 500)
- }
 }
 
 cards.forEach(card => card.addEventListener('click', flipCard))
