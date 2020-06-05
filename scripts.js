@@ -3,21 +3,33 @@ const cards = document.querySelectorAll('.memory-card');
 let hasFlippedCard = false;
 let firstCard, secondCard; 
 
-if (!hasFlippedCard){
-  //first click
-  hasFlippedCard = true;
-  firstCard = this;
-}
-else {
-  //second click
-  hasFlippedCard = false;
-  secondCard = this; 
-}
-
-//checking if the cards match 
-
-
 function flipCard() {
-  this.classList.toggle('flip');
+  this.classList.add('flip');
+  if (!hasFlippedCard){
+    //first click
+    hasFlippedCard = true;
+    firstCard = this;
+  }
+  else {
+    //second click
+    hasFlippedCard = false;
+    secondCard = this; 
+    checkMatch();
+  }
 }
+
+function checkMatch() {
+  if (firstCard.dataset.painting === secondCard.dataset.painting) {
+    // match
+    firstCard.removeEventListener('click', flipCard);
+    secondCard.removeEventListener('click', flipCard);
+  } else{
+    //not a match
+    setTimeout(() => {
+    firstCard.classList.remove('flip'); 
+    secondCard.classList.remove('flip');
+  }, 500)
+ }
+}
+
 cards.forEach(card => card.addEventListener('click', flipCard))
